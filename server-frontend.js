@@ -28,7 +28,7 @@ console.log(`📁 Serving files from: ${distPath}`);
 app.use(express.static(distPath));
 
 // SPA用：すべてのルートをindex.htmlにリダイレクト
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
