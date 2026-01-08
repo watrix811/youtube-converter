@@ -15,7 +15,6 @@ COPY . .
 RUN npm run build
 
 # フロントエンドサーバーを起動
-COPY server-frontend.js ./
 EXPOSE 3000
 
 CMD ["node", "server-frontend.js"]

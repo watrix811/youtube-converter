@@ -12,15 +12,15 @@ const PORT = process.env.PORT || 3000;
 
 // 静的ファイルを配信（distディレクトリ）
 // Railwayではプロジェクトルートが/appになるため、distは/app/dist
-let distPath = path.join(__dirname, '..', 'dist');
+let distPath = path.join(__dirname, 'dist');
 if (!fs.existsSync(distPath)) {
-  // フォールバック: 同じディレクトリ内のdistを探す
-  const altPath = path.join(__dirname, 'dist');
+  // フォールバック: 親ディレクトリのdistを探す
+  const altPath = path.join(__dirname, '..', 'dist');
   if (fs.existsSync(altPath)) {
     distPath = altPath;
   } else {
     console.error('❌ dist directory not found!');
-    console.error(`Tried paths: ${path.join(__dirname, '..', 'dist')}, ${altPath}`);
+    console.error(`Tried paths: ${path.join(__dirname, 'dist')}, ${altPath}`);
     process.exit(1);
   }
 }
