@@ -25,11 +25,21 @@ if (!fs.existsSync(distPath)) {
   }
 }
 console.log(`📁 Serving files from: ${distPath}`);
-app.use(express.static(distPath));
+// distディレクトリの内容を確認
+if (fs.existsSync(distPath)) {
+  const files = fs.readdirSync(distPath);
+  console.log(`📦 Files in dist: ${files.join(', ')}`);
+}
+
+app.use(express.static(distPath, {
+  // 静的ファイルが見つからない場合、次のミドルウェアに進む
+  fallthrough: true
+}));
 
 // SPA用：すべてのルートをindex.htmlにリダイレクト
 // Express 5.x対応：静的ファイルが見つからない場合のみindex.htmlを返す
 app.use((req, res) => {
+  // 静的ファイルが見つからない場合はindex.htmlを返す
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
