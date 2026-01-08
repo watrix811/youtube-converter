@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* 右下に固定表示するロゴ */
+.logo-fixed-link {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.logo-fixed-link:hover {
+  opacity: 0.8;
+}
+
+.logo-fixed {
+  width: 100px;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .logo-fixed {
+    width: 60px;
+  }
+}
