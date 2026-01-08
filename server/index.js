@@ -370,11 +370,31 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://0.0.0.0:${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`PORT environment variable: ${process.env.PORT || 'not set (using default 3001)'}`);
-  console.log(`This is running on Railway (container internal address)`);
-  console.log(`External URL will be provided by Railway`);
+// エラーハンドリング
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  process.exit(1);
 });
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
+});
+
+// サーバー起動
+try {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server is running on http://0.0.0.0:${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`PORT environment variable: ${process.env.PORT || 'not set (using default 3001)'}`);
+    console.log(`This is running on Railway (container internal address)`);
+    console.log(`External URL will be provided by Railway`);
+  }).on('error', (error) => {
+    console.error('❌ Server failed to start:', error);
+    process.exit(1);
+  });
+} catch (error) {
+  console.error('❌ Failed to start server:', error);
+  process.exit(1);
+}
 
