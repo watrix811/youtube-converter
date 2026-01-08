@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # yt-dlpをインストール
-RUN pip3 install yt-dlp
+# --break-system-packagesフラグが必要（Python 3.11+のexternally-managed-environment対策）
+RUN pip3 install --break-system-packages yt-dlp
 
 WORKDIR /app
 
