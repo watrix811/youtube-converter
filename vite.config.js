@@ -11,11 +11,20 @@ export default defineConfig({
         // 環境変数からフロントエンドURLを取得
         // Railwayでは環境変数VITE_FRONTEND_URLを設定する必要があります
         // 例: https://youtube-converter-frontend.up.railway.app
-        const frontendUrl = process.env.VITE_FRONTEND_URL || '';
+        const frontendUrl = process.env.VITE_FRONTEND_URL;
         if (!frontendUrl) {
-          console.warn('⚠️ VITE_FRONTEND_URLが設定されていません。OGP画像のURLが正しく表示されない可能性があります。');
+          throw new Error(
+            '❌ VITE_FRONTEND_URL環境変数が設定されていません。\n' +
+            'Railwayのフロントエンドサービスの「Variables」タブで以下の環境変数を設定してください：\n' +
+            '  VARIABLE_NAME: VITE_FRONTEND_URL\n' +
+            '  VALUE: https://your-frontend-url.up.railway.app\n' +
+            '\n' +
+            'OGP画像のURLは絶対URLである必要があるため、この環境変数は必須です。'
+          );
         }
-        return html.replace(/%VITE_FRONTEND_URL%/g, frontendUrl);
+        // URLの末尾にスラッシュがある場合は削除
+        const cleanUrl = frontendUrl.replace(/\/$/, '');
+        return html.replace(/%VITE_FRONTEND_URL%/g, cleanUrl);
       },
     },
   ],
