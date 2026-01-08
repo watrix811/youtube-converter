@@ -370,8 +370,11 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  console.log('Make sure yt-dlp is installed: pip install yt-dlp');
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`PORT environment variable: ${process.env.PORT || 'not set (using default 3001)'}`);
+  console.log(`This is running on Railway (container internal address)`);
+  console.log(`External URL will be provided by Railway`);
 });
 
