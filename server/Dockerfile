@@ -1,8 +1,9 @@
 FROM node:20-slim
 
-# Python 3.12とffmpegをインストール
+# Python 3とffmpegをインストール
+# Debian Bookwormではpython3.11が利用可能（yt-dlpはPython 3.10以上で動作）
 RUN apt-get update && apt-get install -y \
-    python3.12 \
+    python3 \
     python3-pip \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
