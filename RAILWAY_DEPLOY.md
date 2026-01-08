@@ -9,8 +9,31 @@
 1. Railwayのダッシュボードにアクセス
 2. **「New Project」**をクリック
 3. **「GitHub Repository」**を選択（画面に表示されているオプションから）
-4. 接続済みのリポジトリ一覧が表示されるので、このプロジェクト（mp3）を選択
-5. リポジトリを選択すると、自動的にデプロイが開始されます
+
+### リポジトリが見つからない場合
+
+「No repositories found」と表示される場合は、以下を試してください：
+
+#### 方法1: GitHub Appの設定
+
+1. **「Configure GitHub App」**をクリック
+2. GitHubの認証画面が表示されるので、認証を完了
+3. リポジトリへのアクセス権限を付与
+4. Railwayに戻ると、リポジトリ一覧が表示されるはずです
+
+#### 方法2: リポジトリ名で検索
+
+1. 検索ボックスに `watrix811/youtube-converter` と入力
+2. リポジトリが表示されたら選択
+
+#### 方法3: 手動でリポジトリURLを入力
+
+1. 検索ボックスに直接リポジトリURLを入力：
+   ```
+   https://github.com/watrix811/youtube-converter
+   ```
+
+4. リポジトリを選択すると、自動的にデプロイが開始されます
 
 ## ステップ2: デプロイ設定
 
@@ -106,6 +129,47 @@ npm run build
 `dist`ディレクトリの内容をhetemlなどのWebサーバーにアップロード。
 
 ## トラブルシューティング
+
+### 「Application failed to respond」エラー
+
+このエラーが表示される場合、以下を確認してください：
+
+#### 1. デプロイログの確認（最重要）
+
+1. Railwayのダッシュボードでプロジェクトを開く
+2. **「Deployments」**タブを開く
+3. 最新のデプロイをクリック
+4. **「View Logs」**またはログを確認
+5. エラーメッセージを確認
+
+#### 2. Root Directoryの設定確認
+
+1. **「Settings」**タブを開く
+2. **「Root Directory」**が`server`に設定されているか確認
+3. 設定されていない場合は`server`を入力して保存
+
+#### 3. ポート番号の確認
+
+1. **「Settings」**タブの**「Networking」**セクションを確認
+2. ポート番号が`3001`に設定されているか確認
+3. または、Railwayが自動設定した`PORT`環境変数を使用しているか確認
+
+#### 4. よくある問題と解決方法
+
+**問題1: Root Directoryが設定されていない**
+- 解決: Settings → Root Directory に `server` を設定
+
+**問題2: Dockerfileが見つからない**
+- 解決: Root Directoryが`server`に設定されているか確認
+- Dockerfile Pathは`Dockerfile`（または空欄）に設定
+
+**問題3: アプリケーションが起動しない**
+- 解決: ログでエラーメッセージを確認
+- `server/index.js`の`PORT`設定を確認（`process.env.PORT || 3001`）
+
+**問題4: 依存関係のインストールエラー**
+- 解決: `server/package.json`が正しいか確認
+- ログでnpm installのエラーを確認
 
 ### デプロイが失敗する場合
 

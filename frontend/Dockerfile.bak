@@ -1,0 +1,18 @@
+FROM node:20-slim
+
+WORKDIR /app
+
+# 依存関係をインストール
+COPY package*.json ./
+RUN npm install
+
+# フロントエンドをビルド
+COPY . .
+RUN npm run build
+
+# フロントエンドサーバーを起動
+COPY server-frontend.js ./
+EXPOSE 3000
+
+CMD ["node", "server-frontend.js"]
+

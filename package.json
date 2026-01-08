@@ -8,6 +8,9 @@
     "dev:server": "node --watch server/index.js",
     "dev:all": "concurrently \"npm run dev:server\" \"npm run dev\"",
     "build": "vite build",
+    "build:all": "npm run build && npm run build:frontend-server",
+    "build:frontend-server": "echo 'Frontend server file is ready'",
+    "start:frontend": "node server-frontend.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
