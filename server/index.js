@@ -53,17 +53,19 @@ app.get('/api/video/info', async (req, res) => {
   }
 
   try {
-    // yt-dlpのパスを取得（複数の可能性を試す）
-    // Python 3.12を優先（推奨バージョン）
+    // yt-dlpのパスを取得
+    // 環境に応じて適切なパスを選択
     const ytdlpPaths = [
-      '/Users/watrix/Library/Python/3.12/bin/yt-dlp', // Python 3.12（推奨）
-      'yt-dlp',
-      '/Users/watrix/Library/Python/3.9/bin/yt-dlp', // Python 3.9（非推奨）
+      process.env.YTDLP_PATH, // 環境変数で指定されたパス
+      'yt-dlp', // システムパスにある場合
       '/usr/local/bin/yt-dlp',
-      process.env.YTDLP_PATH || 'yt-dlp'
-    ];
+      '/usr/bin/yt-dlp',
+      // ローカル開発環境用（Docker環境では不要）
+      '/Users/watrix/Library/Python/3.12/bin/yt-dlp',
+      '/Users/watrix/Library/Python/3.9/bin/yt-dlp',
+    ].filter(Boolean); // undefined/nullを除外
     
-    let ytdlpPath = ytdlpPaths[0];
+    let ytdlpPath = ytdlpPaths[0] || 'yt-dlp';
     for (const p of ytdlpPaths) {
       try {
         execSync(`which ${p}`, { stdio: 'ignore' });
