@@ -365,6 +365,20 @@ app.get('/api/video/download', async (req, res) => {
   }
 });
 
+// ルートパス
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'YouTube Converter API',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      videoInfo: '/api/video/info',
+      videoDownload: '/api/video/download',
+      videoProgress: '/api/video/progress'
+    }
+  });
+});
+
 // ヘルスチェック
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
