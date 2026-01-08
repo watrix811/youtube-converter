@@ -3,7 +3,17 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'transform-html',
+      transformIndexHtml(html) {
+        // 環境変数からフロントエンドURLを取得（デフォルトはwatrix.co.jp）
+        const frontendUrl = process.env.VITE_FRONTEND_URL || 'https://watrix.co.jp/mp3';
+        return html.replace(/%VITE_FRONTEND_URL%/g, frontendUrl);
+      },
+    },
+  ],
   base: '/', // Railwayでホスティングする場合はルートパス
   optimizeDeps: {
     exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'], // Viteの最適化から除外
