@@ -8,8 +8,9 @@ export default defineConfig({
     {
       name: 'transform-html',
       transformIndexHtml(html) {
-        // 環境変数からフロントエンドURLを取得（デフォルトはwatrix.co.jp）
-        const frontendUrl = process.env.VITE_FRONTEND_URL || 'https://watrix.co.jp/mp3';
+        // 環境変数からフロントエンドURLを取得
+        // Railwayでは環境変数VITE_FRONTEND_URLを設定する必要があります
+        const frontendUrl = process.env.VITE_FRONTEND_URL || '';
         return html.replace(/%VITE_FRONTEND_URL%/g, frontendUrl);
       },
     },
